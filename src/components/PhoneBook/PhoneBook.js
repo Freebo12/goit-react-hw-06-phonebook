@@ -2,6 +2,10 @@ import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { nanoid } from 'nanoid';
 import { Formik } from 'formik';
+import { useDispatch } from 'react-redux';
+import { addContact } from '../Redux/contactsSlice';
+import { useSelector } from 'react-redux';
+import { getContacts } from '../Redux/selectors';
 
 import { Field, Form, BtnSubmit, ErrorMessage } from './PhoneBook.styled';
 
@@ -17,14 +21,28 @@ const PhoneBookSchema = Yup.object().shape({
   filter: '',
 });
 
-export const PhoneBook = ({ onSabmit }) => {
+export const PhoneBook = () => {
+  const dispatch = useDispatch();
+
+  // const handleSubmit = ({ name, number }) => {
+  //   const contact = {
+  //     name,
+  //     number,
+  //     id: nanoid(),
+  //   };
+  //   contacts.find(contact => contact.name.toLowerCase() === name.toLowerCase());
+
+  //   dispatch(addContact());
+  // };
+  const contacts = useSelector(getContacts);
   return (
     <>
       <Formik
         initialValues={{ name: '', number: '', filter: '' }}
         validationSchema={PhoneBookSchema}
         onSubmit={(values, actions) => {
-          onSabmit({ ...values, id: nanoid(), number: values.number });
+          dispatch(addContact(values.name, +values.number));
+          console.log(contacts);
           actions.resetForm();
         }}
       >
@@ -61,6 +79,9 @@ export const PhoneBook = ({ onSabmit }) => {
   );
 };
 
-PhoneBook.propTypes = {
-  onSabmit: PropTypes.func.isRequired,
-};
+// const getContacts = () => {
+//   const normalizedFilter = filter.toLowerCase();
+//   return contacts.filter(contact =>
+//     contact.name.toLowerCase().includes(normalizedFilter)
+//   );
+// };

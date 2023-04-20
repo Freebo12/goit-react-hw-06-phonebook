@@ -1,7 +1,14 @@
-import PropTypes from 'prop-types';
 import { FilterSearch, SearchBox } from './SearchFilter.styled';
+import { findContact } from 'components/Redux/contactsSlice';
+import { useDispatch } from 'react-redux';
 
-export const SearchFilter = ({ value, onChange }) => {
+export const SearchFilter = ({ value }) => {
+  const dispatch = useDispatch();
+
+  const onChange = e => {
+    dispatch(findContact(e.currentTarget.value));
+  };
+
   return (
     <SearchBox>
       <label name="filter"></label>
@@ -14,8 +21,4 @@ export const SearchFilter = ({ value, onChange }) => {
       ></FilterSearch>
     </SearchBox>
   );
-};
-
-SearchFilter.propTypes = {
-  onChange: PropTypes.func.isRequired,
 };
