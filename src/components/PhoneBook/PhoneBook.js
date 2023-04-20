@@ -1,6 +1,4 @@
-import PropTypes from 'prop-types';
 import * as Yup from 'yup';
-import { nanoid } from 'nanoid';
 import { Formik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { addContact } from '../Redux/contactsSlice';
@@ -23,18 +21,8 @@ const PhoneBookSchema = Yup.object().shape({
 
 export const PhoneBook = () => {
   const dispatch = useDispatch();
-
-  // const handleSubmit = ({ name, number }) => {
-  //   const contact = {
-  //     name,
-  //     number,
-  //     id: nanoid(),
-  //   };
-  //   contacts.find(contact => contact.name.toLowerCase() === name.toLowerCase());
-
-  //   dispatch(addContact());
-  // };
   const contacts = useSelector(getContacts);
+
   return (
     <>
       <Formik
@@ -78,10 +66,3 @@ export const PhoneBook = () => {
     </>
   );
 };
-
-// const getContacts = () => {
-//   const normalizedFilter = filter.toLowerCase();
-//   return contacts.filter(contact =>
-//     contact.name.toLowerCase().includes(normalizedFilter)
-//   );
-// };
